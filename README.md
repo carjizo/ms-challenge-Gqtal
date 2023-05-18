@@ -14,6 +14,16 @@ Definición de la tarea Por favor implemente los siguientes métodos:
 
 - **ItemController** List getTitles(Double rating) – el métodos deberá proveer un endpoint REST (método GET) bajo la ruta '/titles' y devolverá títulos del ItemService en formato JSON con codificación UTF
 
+### Consulta SQL para obtener los items menores a un rating indicado
+```
+SELECT i.title, i.description, i.price, COALESCE(AVG(r.rating), 0) AS average_rating
+FROM msgqtc.msgqtc.items i
+left join msgqtc.msgqtc.reviews r on r.item_id = i.item_id 
+group by i.title, i.description, i.price
+HAVING COALESCE(AVG(r.rating), 0) < 5;
+```
+![](./images/query.png)
+
 ### Diagrama BD con PosgrestSQL
 ![](./images/diagramaDB.png)
 
